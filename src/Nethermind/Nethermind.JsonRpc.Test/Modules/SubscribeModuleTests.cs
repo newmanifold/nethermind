@@ -224,21 +224,6 @@ namespace Nethermind.JsonRpc.Test.Modules
             return jsonRpcResult;
         }
 
-        private JsonRpcResult GetPeerEventsAddResult(PeerEventArgs peerEventArgs, out string subscriptionId, bool shouldReceiveResult = true)
-        {
-            PeerEventsSubscription peerEventsSubscription = new(_jsonRpcDuplexClient, _logManager, _peerPool, _rlpxPeer);
-            JsonRpcResult jsonRpcResult = new();
-            ManualResetEvent manualResetEvent = new(false);
-            peerEventsSubscription.JsonRpcDuplexClient.SendJsonRpcResult(Arg.Do<JsonRpcResult>(j =>
-            {
-                jsonRpcResult = j;
-                manualResetEvent.Set();
-            }));
-            _peerPool.PeerAdded += Raise.EventWith(new object(), peerEventArgs);
-            manualResetEvent.WaitOne(TimeSpan.FromMilliseconds(1000)).Should().Be(shouldReceiveResult);
-            subscriptionId = peerEventsSubscription.Id;
-            return jsonRpcResult;
-        }
         private JsonRpcResult GetPeerEventsRemovedResult(PeerEventArgs peerEventArgs, out string subscriptionId, bool shouldReceiveResult = true)
         {
             PeerEventsSubscription peerEventsSubscription = new(_jsonRpcDuplexClient, _logManager, _peerPool, _rlpxPeer);
