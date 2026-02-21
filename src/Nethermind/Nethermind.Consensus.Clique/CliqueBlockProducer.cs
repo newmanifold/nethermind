@@ -286,7 +286,6 @@ public class CliqueBlockProducerRunner : ICliqueBlockProducerRunner, IDisposable
 
 public class CliqueBlockProducer : IBlockProducer
 {
-    private readonly IWorldState _stateProvider;
     private readonly ITxSource _txSource;
     private readonly IBlockchainProcessor _processor;
     private readonly ISealer _sealer;
@@ -316,7 +315,6 @@ public class CliqueBlockProducer : IBlockProducer
         _logger = logManager?.GetClassLogger() ?? throw new ArgumentNullException(nameof(logManager));
         _txSource = txSource ?? throw new ArgumentNullException(nameof(txSource));
         _processor = blockchainProcessor ?? throw new ArgumentNullException(nameof(blockchainProcessor));
-        _stateProvider = stateProvider ?? throw new ArgumentNullException(nameof(stateProvider));
         _timestamper = timestamper ?? throw new ArgumentNullException(nameof(timestamper));
         _cryptoRandom = cryptoRandom ?? throw new ArgumentNullException(nameof(cryptoRandom));
         _sealer = cliqueSealer ?? throw new ArgumentNullException(nameof(cliqueSealer));
