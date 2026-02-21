@@ -189,7 +189,6 @@ public class FullPrunerTests(int fullPrunerMemoryBudgetMb, int degreeOfParalleli
 
     private class TestContext
     {
-        private readonly bool _clearPrunedDb;
         private readonly Hash256 _stateRoot;
         private long _head;
         public TestFullPruningDb FullPruningDb { get; }
@@ -215,7 +214,6 @@ public class FullPrunerTests(int fullPrunerMemoryBudgetMb, int degreeOfParalleli
             INodeStorage.KeyScheme preferredKeyScheme = INodeStorage.KeyScheme.Current)
         {
             BlockTree.OnUpdateMainChain += (_, e) => _head = e.Blocks[^1].Number;
-            _clearPrunedDb = clearPrunedDb;
             TrieDb = new TestMemDb();
             CopyDb = new TestMemDb();
             IDbFactory dbFactory = Substitute.For<IDbFactory>();
