@@ -28,7 +28,7 @@ namespace Nethermind.Consensus.Producers.Test;
 public class TxPoolSourceTests
 {
     [TestCaseSource(nameof(BlobTransactionsWithBlobGasLimitPerBlockCombinations))]
-    public void GetTransactions_should_respect_customizable_blob_gas_limit(int[] blobCountPerTx, ulong customMaxBlobGasPerBlock, int? customBlobLimit)
+    public void GetTransactions_should_respect_customizable_blob_gas_limit(int[] blobCountPerTx, int? customBlobLimit)
     {
         TestSingleReleaseSpecProvider specProvider = new(Cancun.Instance);
         TransactionComparerProvider transactionComparerProvider = new(specProvider, Build.A.BlockTree().TestObject);
@@ -56,11 +56,11 @@ public class TxPoolSourceTests
     public static IEnumerable<TestCaseData> BlobTransactionsWithBlobGasLimitPerBlockCombinations()
     {
         int?[] customBlobLimits = [null, 0, 1, 2, 3, 5, 500];
-        foreach ((int[] blobCountPerTx, ulong customMaxBlobGasPerBlock) in BlobTransactionsWithBlobGasLimitPerBlock())
+        foreach ((int[] blobCountPerTx, _) in BlobTransactionsWithBlobGasLimitPerBlock())
         {
             foreach (int? customBlobLimit in customBlobLimits)
             {
-                yield return new TestCaseData(blobCountPerTx, customMaxBlobGasPerBlock, customBlobLimit);
+                yield return new TestCaseData(blobCountPerTx, customBlobLimit);
             }
         }
     }

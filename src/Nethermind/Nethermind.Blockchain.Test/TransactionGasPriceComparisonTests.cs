@@ -60,14 +60,14 @@ public class TransactionComparisonTests
 
     [MaxTime(Timeout.MaxTestTime)]
     // head block number before eip 1559 transition
-    [TestCase(10, 10, 0, 0, 0)]
-    [TestCase(15, 10, 10, 1, -1)]
-    [TestCase(2, 3, 20, 0, 1)]
+    [TestCase(10, 10, 0, 0)]
+    [TestCase(15, 10, 1, -1)]
+    [TestCase(2, 3, 0, 1)]
     // head block number after eip 1559 transition
-    [TestCase(10, 10, 16, 5, 0)]
-    [TestCase(15, 10, 11, 6, -1)]
-    [TestCase(2, 3, 33, 7, 1)]
-    public void ProducerGasPriceComparer_for_legacy_transactions_1559(int gasPriceX, int gasPriceY, int headBaseFee, long headBlockNumber, int expectedResult)
+    [TestCase(10, 10, 5, 0)]
+    [TestCase(15, 10, 6, -1)]
+    [TestCase(2, 3, 7, 1)]
+    public void ProducerGasPriceComparer_for_legacy_transactions_1559(int gasPriceX, int gasPriceY, long headBlockNumber, int expectedResult)
     {
         long eip1559Transition = 5;
         TestingContext context = new(true, eip1559Transition);
