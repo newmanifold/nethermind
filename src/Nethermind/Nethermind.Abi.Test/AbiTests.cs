@@ -356,11 +356,8 @@ public class AbiTests
         Assert.Throws<ArgumentException>(() => System.Text.Json.JsonSerializer.Deserialize<AbiType>($"\"{type}\""));
     }
 
-    [TestCase(AbiEncodingStyle.IncludeSignature)]
-    [TestCase(AbiEncodingStyle.IncludeSignature | AbiEncodingStyle.Packed)]
-    [TestCase(AbiEncodingStyle.Packed)]
-    [TestCase(AbiEncodingStyle.None)]
-    public void Test_single_address_no_signature(AbiEncodingStyle encodingStyle)
+    [Test]
+    public void Test_single_address_no_signature()
     {
         AbiType type = AbiType.Address;
         AbiSignature signature = new("abc", type);
