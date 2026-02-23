@@ -10,14 +10,6 @@ namespace Nethermind.Serialization.Ssz;
 public static partial class Ssz
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void Encode(Span<byte> span, BitArray value, ref int offset)
-    {
-        int byteLength = (value.Length + 7) / 8;
-        EncodeVector(span.Slice(offset, byteLength), value);
-        offset += byteLength;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void EncodeVector(Span<byte> span, BitArray value)
     {
         int byteLength = (value.Length + 7) / 8;
