@@ -31,7 +31,6 @@ public class ParityStyleTracerTests
     private IPoSSwitcher? _poSSwitcher;
     private ITraceRpcModule _traceRpcModule;
     private IContainer _container;
-    private IBlockProcessingQueue _blockProcessingQueue;
 
     [SetUp]
     public async Task Setup()
@@ -57,7 +56,6 @@ public class ParityStyleTracerTests
 
         await _container.Resolve<PseudoNethermindRunner>().StartBlockProcessing(default);
         _traceRpcModule = _container.Resolve<IRpcModuleFactory<ITraceRpcModule>>().Create();
-        _blockProcessingQueue = _container.Resolve<IBlockProcessingQueue>();
 
     }
 
