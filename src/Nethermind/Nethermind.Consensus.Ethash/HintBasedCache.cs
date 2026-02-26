@@ -37,12 +37,11 @@ namespace Nethermind.Consensus.Ethash
         public int CachedEpochsCount => _cachedEpochsCount;
 
         private readonly Func<uint, IEthashDataSet> _createDataSet;
-        private readonly ILogger _logger;
 
         public HintBasedCache(Func<uint, IEthashDataSet> createDataSet, ILogManager logManager)
         {
             _createDataSet = createDataSet;
-            _logger = logManager?.GetClassLogger<HintBasedCache>() ?? throw new ArgumentNullException(nameof(logManager));
+            _ = logManager?.GetClassLogger<HintBasedCache>() ?? throw new ArgumentNullException(nameof(logManager));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
