@@ -67,7 +67,8 @@ namespace Nethermind.Core
         public const long TLoad = WarmStateRead; // eip-1153
         public const long TStore = WarmStateRead; // eip-1153
         public const long PerAuthBaseCost = 12500; // eip-7702
-        public const long TotalCostFloorPerTokenEip7623 = 10; // eip-7632
+        public const long TotalCostFloorPerTokenEip7623 = 10; // eip-7623
+        public const long TotalCostFloorPerTokenEip7976 = 16; // eip-7976
 
         public const long TxDataNonZeroMultiplier = TxDataNonZero / TxDataZero;
         public const long TxDataNonZeroMultiplierEip2028 = TxDataNonZeroEip2028 / TxDataZero;

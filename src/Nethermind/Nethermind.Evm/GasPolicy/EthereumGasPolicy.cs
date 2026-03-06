@@ -184,7 +184,7 @@ public struct EthereumGasPolicy : IGasPolicy<EthereumGasPolicy>
                         + CreateCost(tx, spec)
                         + IGasPolicy<EthereumGasPolicy>.AccessListCost(tx, spec)
                         + AuthorizationListCost(tx, spec);
-        long floorCost = IGasPolicy<EthereumGasPolicy>.CalculateFloorCost(tokensInCallData, spec);
+        long floorCost = IGasPolicy<EthereumGasPolicy>.CalculateFloorCost(tx, spec, tokensInCallData);
         return new IntrinsicGas<EthereumGasPolicy>(FromLong(standard), FromLong(floorCost));
     }
 

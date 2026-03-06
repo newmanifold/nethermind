@@ -246,6 +246,7 @@ public interface IGasPolicy<TSelf> where TSelf : struct, IGasPolicy<TSelf>
         return totalZeros + (data.Length - totalZeros) * spec.GasCosts.TxDataNonZeroMultiplier;
     }
 
+
     public static long AccessListCost(Transaction transaction, IReleaseSpec spec)
     {
         AccessList? accessList = transaction.AccessList;
@@ -267,10 +268,20 @@ public interface IGasPolicy<TSelf> where TSelf : struct, IGasPolicy<TSelf>
             throw new InvalidDataException($"Transaction with an access list received within the context of {spec.Name}. EIP-2930 is not enabled.");
     }
 
-    protected static long CalculateFloorCost(long tokensInCallData, IReleaseSpec spec) =>
-        spec.IsEip7623Enabled
-            ? GasCostOf.Transaction + tokensInCallData * GasCostOf.TotalCostFloorPerTokenEip7623
-            : 0L;
+    protected static long CalculateFloorCost(Transaction transaction, IReleaseSpec spec, long tokensInCallData)
+    {
+        if (spec.IsEip7976Enabled)
+        {
+            long floorTokensInCallData = transaction.Data.Length * spec.GetTxDataNonZeroMultiplier();
+            return GasCostOf.Transaction + floorTokensInCallData * GasCostOf.TotalCostFloorPerTokenEip7976;
+        }
+        else if (spec.IsEip7623Enabled)
+        {
+            return GasCostOf.Transaction + tokensInCallData * GasCostOf.TotalCostFloorPerTokenEip7623;
+        }
+
+        return 0L;
+    }
 }
 
 /// <summary>
