@@ -16,6 +16,8 @@ using Word = Vector256<byte>;
 
 public static class UInt256Extensions
 {
+    public const int ByteSize = 32;
+
     // value?.IsZero == false <=> x > 0
     public static bool IsPositive(this UInt256? @this) => @this?.IsZero == false;
 
@@ -64,6 +66,38 @@ public static class UInt256Extensions
         }
 
         return Unsafe.As<Word, ValueHash256>(ref result);
+    }
+
+    /// <summary>
+    /// Returns the number of zero-valued bytes in the 256-bit value.
+    /// Uses platform-optimal SIMD: ExtractMostSignificantBits on x86 (native vpmovmskb),
+    /// Vector128 Sum on ARM (efficient horizontal add at native 128-bit width),
+    /// and 4×SWAR as scalar fallback on platforms without SIMD.
+    /// No serialization needed — operates directly on the in-memory layout.
+    /// </summary>
+    public static int CountZeroBytes(this in UInt256 value)
+    {
+        // x86 with AVX2: single-pass 256-bit compare + vpmovmskb + popcnt
+        if (Vector256.IsHardwareAccelerated)
+        {
+            Vector256<byte> data = Unsafe.As<UInt256, Vector256<byte>>(ref Unsafe.AsRef(in value));
+            return BitOperations.PopCount(
+                Vector256.ExtractMostSignificantBits(Vector256.Equals(data, default)));
+        }
+
+        // ARM with NEON: 2×Vector128 compare + horizontal sum at native 128-bit width
+        if (Vector128.IsHardwareAccelerated)
+        {
+            ref byte b = ref Unsafe.As<UInt256, byte>(ref Unsafe.AsRef(in value));
+            Vector128<byte> lo = Unsafe.ReadUnaligned<Vector128<byte>>(ref b);
+            Vector128<byte> hi = Unsafe.ReadUnaligned<Vector128<byte>>(ref Unsafe.Add(ref b, 16));
+            return Vector128.Sum(~Vector128.Equals(lo, default) + Vector128<byte>.One)
+                   + Vector128.Sum(~Vector128.Equals(hi, default) + Vector128<byte>.One);
+        }
+
+        // Scalar fallback: 4×SWAR bitmask trick on the ulong limbs
+        return value.u0.CountZeroBytes() + value.u1.CountZeroBytes()
+                                         + value.u2.CountZeroBytes() + value.u3.CountZeroBytes();
     }
 
     public static int CountLeadingZeros(this in UInt256 uInt256)
