@@ -29,14 +29,12 @@ public class TxCertifierFilterTests
     private ICertifierContract _certifierContract;
     private ITxFilter _notCertifiedFilter;
     private TxCertifierFilter _filter;
-    private ISpecProvider _specProvider;
 
     [SetUp]
     public void SetUp()
     {
         _certifierContract = Substitute.For<ICertifierContract>();
         _notCertifiedFilter = Substitute.For<ITxFilter>();
-        _specProvider = Substitute.For<ISpecProvider>();
 
         _notCertifiedFilter.IsAllowed(Arg.Any<Transaction>(), Arg.Any<BlockHeader>(), Arg.Any<IReleaseSpec>())
             .Returns(AcceptTxResult.Invalid);
