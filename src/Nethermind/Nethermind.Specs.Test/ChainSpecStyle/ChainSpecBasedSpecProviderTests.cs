@@ -444,17 +444,6 @@ public class ChainSpecBasedSpecProviderTests
         }
     }
 
-    private static void VerifyGnosisOsakaSpecifics(IReleaseSpec spec, Address feeCollector)
-    {
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(spec.FeeCollector, Is.EqualTo(feeCollector));
-            Assert.That(spec.IsEip4844FeeCollectorEnabled, Is.True);
-        }
-
-        VerifyGnosisCancunSpecifics(spec);
-    }
-
     private static void VerifyGnosisPragueSpecifics(IReleaseSpec prePragueSpec, IReleaseSpec postPragueSpec, Address feeCollector)
     {
         using (Assert.EnterMultipleScope())
