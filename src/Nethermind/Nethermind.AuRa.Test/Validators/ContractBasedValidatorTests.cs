@@ -39,7 +39,6 @@ public class ContractBasedValidatorTests
     private IWorldState _stateProvider;
     private IAbiEncoder _abiEncoder;
     private ILogManager _logManager;
-    private AuRaParameters.Validator _validator;
     private Block _block;
     private BlockHeader _parentHeader;
     private ITransactionProcessor _transactionProcessor;
@@ -66,11 +65,6 @@ public class ContractBasedValidatorTests
         _blockTree = Substitute.For<IBlockTree>();
         _blockFinalizationManager = Substitute.For<IAuRaBlockFinalizationManager>();
         _receiptsStorage = Substitute.For<IReceiptStorage>();
-        _validator = new AuRaParameters.Validator()
-        {
-            Addresses = new[] { _contractAddress },
-            ValidatorType = AuRaParameters.ValidatorType.Contract
-        };
         _block = new Block(Build.A.BlockHeader.WithNumber(1).WithStateRoot(TestItem.KeccakA).WithAura(1, []).TestObject, new BlockBody());
 
         _transactionProcessor = Substitute.For<ITransactionProcessor>();
