@@ -22,10 +22,6 @@ public sealed class SpecGasCosts : IEquatable<SpecGasCosts>
     public readonly long SStoreResetCost;
     public readonly long TxDataNonZeroMultiplier;
 
-    /// <summary>
-    /// Per-token floor cost for calldata pricing.
-    /// 16 when EIP-7976 is active, 10 when EIP-7623 is active, 0 otherwise.
-    /// </summary>
     public readonly long TotalCostFloorPerToken;
 
     public readonly long NetMeteredSStoreCost;
@@ -107,7 +103,6 @@ public sealed class SpecGasCosts : IEquatable<SpecGasCosts>
             ? GasCostOf.TxDataNonZeroMultiplierEip2028
             : GasCostOf.TxDataNonZeroMultiplier;
 
-        // EIP-7976 supersedes EIP-7623 with a higher per-token floor cost.
         TotalCostFloorPerToken = spec.IsEip7976Enabled
             ? GasCostOf.TotalCostFloorPerTokenEip7976
             : spec.IsEip7623Enabled
