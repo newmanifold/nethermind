@@ -43,7 +43,6 @@ public class AdminModuleTests
     private EthereumJsonSerializer _serializer = null!;
     private NetworkConfig _networkConfig = null!;
     private ILogManager _logManager = null!;
-    private ITxPool _txPool = null!;
     private IReceiptStorage _receiptStorage = null!;
     private IReceiptMonitor _receiptCanonicalityMonitor = null!;
     private IJsonRpcDuplexClient _jsonRpcDuplexClient = null!;
@@ -62,7 +61,6 @@ public class AdminModuleTests
     public void Setup()
     {
         _logManager = Substitute.For<ILogManager>();
-        _txPool = Substitute.For<ITxPool>();
         _receiptStorage = Substitute.For<IReceiptStorage>();
         _receiptCanonicalityMonitor = new ReceiptCanonicalityMonitor(_receiptStorage, _logManager);
         _jsonRpcDuplexClient = Substitute.For<IJsonRpcDuplexClient>();

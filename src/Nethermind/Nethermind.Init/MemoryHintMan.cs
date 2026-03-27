@@ -23,11 +23,9 @@ namespace Nethermind.Init
     public class MemoryHintMan
     {
         private readonly ILogger _logger;
-        private readonly MallocHelper _mallocHelper;
 
         public MemoryHintMan(ILogManager logManager, MallocHelper? mallocHelper = null)
         {
-            _mallocHelper = mallocHelper ?? MallocHelper.Instance;
             _logger = logManager?.GetClassLogger<MemoryHintMan>()
                       ?? throw new ArgumentNullException(nameof(logManager));
         }
