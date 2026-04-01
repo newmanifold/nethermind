@@ -94,7 +94,7 @@ public sealed class ClockCache<TKey, TValue>(int maxCapacity, int? lockPartition
         }
         else if (offset >= MaxCapacity)
         {
-            offset = Replace(key);
+            offset = Replace();
         }
 
         _cacheMap[key] = new(val, offset);
@@ -105,7 +105,7 @@ public sealed class ClockCache<TKey, TValue>(int maxCapacity, int? lockPartition
         return true;
     }
 
-    private int Replace(TKey key)
+    private int Replace()
     {
         int position = Clock;
         int max = _count;
