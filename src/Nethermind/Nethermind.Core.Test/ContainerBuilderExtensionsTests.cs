@@ -60,14 +60,6 @@ public class ContainerBuilderExtensionsTests
     {
     }
 
-    private class InterfaceImplementation : ITestInterface
-    {
-        public DeclaredService TheService { get; set; } = new DeclaredService();
-        public DeclaredButNullService? NullService { get; set; } = null;
-        public Ignored IgnoredService { get; set; } = new Ignored();
-        public DeclaredInBase BaseService { get; set; } = new DeclaredInBase();
-    }
-
     private interface ITestInterface : ITestInterfaceBase
     {
         DeclaredService TheService { get; set; }

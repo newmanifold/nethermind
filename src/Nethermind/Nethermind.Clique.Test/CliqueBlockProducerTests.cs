@@ -266,16 +266,6 @@ public class CliqueBlockProducerTests
             return this;
         }
 
-        public On ProcessBadGenesis()
-        {
-            foreach (KeyValuePair<PrivateKey, IBlockTree> node in _blockTrees)
-            {
-                ProcessBadGenesis(node.Key);
-            }
-
-            return this;
-        }
-
         public On ProcessGenesis(PrivateKey nodeKey)
         {
             using var _ = _containers[nodeKey].Resolve<IMainProcessingContext>().WorldState.BeginScope(IWorldState.PreGenesis);
